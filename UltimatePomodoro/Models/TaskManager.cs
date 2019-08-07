@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,17 +11,32 @@ namespace UltimatePomodoro.Models
 {
     public static class TaskManager
     {
-        public static Dictionary<string, ObservableCollection<Task>> tasks = new Dictionary<string, ObservableCollection<Task>>();
-
-        
+        public static Dictionary<string,DaySchedule> DailyTasks = new Dictionary<string, DaySchedule>();
     }
 
     public class Task
     {
         public string Title { get; set; }
-        public int id = TaskManager.tasks.Count;
+        public int id { get; set; }
         public string Description { get; set; }
         public TimeManager Pomodoro {get; set;}
 
+    }
+
+    public class DaySchedule : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        public ObservableCollection<Task> tasks = new ObservableCollection<Task>();
+        public string date { get; set; }
+        public void AddTask(Task task)
+        {
+            tasks.Add(task);
+            this.onPropertyChanged();
+        }
+        public void onPropertyChanged([CallerMemberName] string propertyName=null)
+        {
+            this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

@@ -31,9 +31,42 @@
                            
                            RelativePanel.AlignTopWithPanel="True"
                        Name="Date"/>
-
+                <Button x:Name="NewTaskButton"
+                        Click="NewTaskButton_Click"
+                        RelativePanel.Below="Date"
+                        RelativePanel.AlignRightWithPanel="True"
+                        Visibility="Collapsed"
+                        Content="New Task"/>
+                <StackPanel x:Name="NewTaskForm"
+                            Width="400"
+                            Visibility="Collapsed"
+                            RelativePanel.Below="NewTaskButton"
+                            RelativePanel.AlignHorizontalCenterWithPanel="True"
+                            >
+                    <TextBox PlaceholderText="Title"
+                             Margin="0,0,0,30"
+                             Name="Title"
+                             />
+                    <TextBox PlaceholderText="Description"
+                             x:Name="Description"/>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                        <Button Content="Cancel"
+                                Name="CloseFormButton"
+                                Click="CloseFormButton_Click"
+                                Margin="0,50,20,0"/>
+                        <Button Content="Create Task"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,50,0,0"
+                                    Click="CreateTask_Click"
+                                Name="CreateTask"/>
+                    </StackPanel>
+                    
+                </StackPanel>
                 <GridView Name="TaskCards"
-                          ItemsSource="{x:Bind CurrentTasks}">
+                          x:DefaultBindMode="OneWay"
+                          RelativePanel.Below="NewTaskForm"
+                          ItemsSource="{x:Bind CurrentTasks.tasks}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="data:Task">
                             <RelativePanel MinHeight="100"
@@ -43,10 +76,10 @@
                                RelativePanel.AlignHorizontalCenterWithPanel="True"
                                RelativePanel.Below="Date"
                                Background="{ThemeResource AppBarBackgroundThemeBrush}">
-                                <TextBlock Text="Title" 
+                                <TextBlock Text="{x:Bind Title}" 
                                Name="Title" 
                                RelativePanel.AlignTopWithPanel="True"/>
-                                <TextBlock Text="Description" 
+                                <TextBlock Text="{x:Bind Description}" 
                                Name="Description"
                                RelativePanel.Below="Title"/>
                                 <Button Name="StartTimer" 
@@ -66,12 +99,9 @@
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
-                <Button Content="Create Task"
-                        RelativePanel.Below="TaskCards"
-                        RelativePanel.AlignRightWithPanel="True"
-                        Margin="0,50,30,0"
-                        Click="CreateTask_Click"
-                    Name="CreateTask"/>
+
+                
+
             </RelativePanel>
         </ScrollViewer>
     </Grid>

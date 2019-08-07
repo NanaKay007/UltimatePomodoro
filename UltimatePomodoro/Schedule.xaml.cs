@@ -24,40 +24,63 @@ namespace UltimatePomodoro
     /// </summary>
     public sealed partial class Schedule : Page
     {
-        public ObservableCollection<Task> CurrentTasks = new ObservableCollection<Task>();
+        public DaySchedule CurrentTasks;
+        
         public string calendarPos = "";
 
         public Schedule()
         {
             this.InitializeComponent();
-            CreateTask.Visibility = Visibility.Collapsed;
-            
         }
 
         private void Scheduler_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
-            var selected = Scheduler.SelectedDates.First().DateTime;
-            calendarPos = String.Format("{0}:{1}:{2}", selected.Day, selected.Month, selected.Year);
-            CreateTask.Visibility = Visibility.Visible;
-            Date.Text = "Tasks for " + calendarPos;
+            try
+            {
+                
+                var selected = Scheduler.SelectedDates.First().DateTime;
+                NewTaskButton.Visibility = Visibility.Visible;
+                calendarPos = String.Format("{0}:{1}:{2}", selected.Day, selected.Month, selected.Year);
+                try
+                {
+                    CurrentTasks = TaskManager.DailyTasks[calendarPos];
+                    TaskCards.ItemsSource = CurrentTasks.tasks;
+                }
+                catch
+                {
+                    CurrentTasks = null;
+                    TaskCards.ItemsSource = null;
+                }
+                Date.Text = "Tasks for " + calendarPos;
+            }
+            catch
+            {
+                Date.Text = "Please select a day on the calendar";
+                NewTaskButton.Visibility = Visibility.Collapsed;
+            }
+            
+            
         }
 
         private void CreateTask_Click(object sender, RoutedEventArgs e)
         {
-            Task task = new Task();
+            Task task = new Task { Title = Title.Text, Description = Description.Text };
             try
             {
-                CurrentTasks = TaskManager.tasks[calendarPos];
+                CurrentTasks = TaskManager.DailyTasks[calendarPos];
             }
             catch
             {
-                TaskManager.tasks[calendarPos] = new ObservableCollection<Task>();
-                CurrentTasks = TaskManager.tasks[calendarPos];
+                DaySchedule newSchedule = new DaySchedule { date = calendarPos };
+                
+                TaskManager.DailyTasks[calendarPos] = newSchedule;
+                CurrentTasks =  newSchedule;
+
             }
-
-            CurrentTasks.Add(task);
             
-
+            CurrentTasks.AddTask(task);
+            TaskCards.ItemsSource = CurrentTasks.tasks;
+            closeForm();
         }
 
         private void StartTimer_Click(object sender, RoutedEventArgs e)
@@ -68,13 +91,30 @@ namespace UltimatePomodoro
         private void DeleteTask_Click(object sender, RoutedEventArgs e)
         {
             Button button_sender = (Button)sender;
-            var selected = Scheduler.SelectedDates;
-
-            CurrentTasks.RemoveAt(int.Parse(button_sender.AccessKey));
-
-             
-            
+            var selected = Scheduler.SelectedDates; 
 
         }
+
+        private void NewTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            NewTaskButton.Visibility = Visibility.Collapsed;
+            NewTaskForm.Visibility = Visibility.Visible;
+
+        }
+
+        private void CloseFormButton_Click(object sender, RoutedEventArgs e)
+        {
+            closeForm();
+        }
+
+        private void closeForm()
+        {
+            NewTaskForm.Visibility = Visibility.Collapsed;
+            Title.Text = "";
+            Description.Text = "";
+            NewTaskButton.Visibility = Visibility.Visible;
+        }
     }
+
+
 }
