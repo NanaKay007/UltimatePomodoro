@@ -75,12 +75,12 @@
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Style="{StaticResource NavItem}"
-                                 Name="Charts">
+                                 Name="History">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Style="{StaticResource NavIcon}"
                                        Text="&#xF0E2;"/>
                             <TextBlock Style="{StaticResource NavText}"
-                                       Text="Charts"/>
+                                       Text="History"/>
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Style="{StaticResource NavItem}"

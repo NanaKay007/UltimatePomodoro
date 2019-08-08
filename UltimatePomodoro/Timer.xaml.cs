@@ -23,15 +23,17 @@ namespace UltimatePomodoro
     /// </summary>
     public sealed partial class Timer : Page
     {
-
+        public TimeManager current;
         public Timer()
         {
             this.InitializeComponent();
+            current = TaskManager.currentTimer;
         }
 
         private void StartTimer_Click(object sender, RoutedEventArgs e)
         {
-
+            current.startTimer();
+            TimerTextBox.Text = String.Format("{0}:{1}", current.span.Minutes, current.span.Seconds);
         }
     }
 

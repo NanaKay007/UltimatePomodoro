@@ -64,7 +64,9 @@ namespace UltimatePomodoro
 
         private void CreateTask_Click(object sender, RoutedEventArgs e)
         {
-            Task task = new Task { Title = Title.Text, Description = Description.Text };
+            string id = Guid.NewGuid().ToString();
+
+            Task task = new Task { Title = Title.Text, Description = Description.Text ,id = id};
             try
             {
                 CurrentTasks = TaskManager.DailyTasks[calendarPos];
@@ -83,15 +85,31 @@ namespace UltimatePomodoro
             closeForm();
         }
 
-        private void StartTimer_Click(object sender, RoutedEventArgs e)
+        private void CreateTimer_Click(object sender, RoutedEventArgs e)
         {
+            TimeManager timer = new TimeManager();
+            Button button_sender = (Button)sender;
 
+            CurrentTasks.tasks.Where(p => p.id == button_sender.AccessKey).First().Pomodoro = timer;
+            
+            TaskManager.currentTimer = timer;
+            
+            Frame.Navigate(typeof(Timer));
         }
 
         private void DeleteTask_Click(object sender, RoutedEventArgs e)
         {
             Button button_sender = (Button)sender;
             var selected = Scheduler.SelectedDates; 
+
+            foreach(Task task in CurrentTasks.tasks)
+            {
+                if (task.id == button_sender.AccessKey)
+                {
+                    CurrentTasks.tasks.Remove(task);
+                    break;
+                }
+            }
 
         }
 

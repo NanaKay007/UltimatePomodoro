@@ -78,16 +78,17 @@
                                Background="{ThemeResource AppBarBackgroundThemeBrush}">
                                 <TextBlock Text="{x:Bind Title}" 
                                Name="Title" 
-                               RelativePanel.AlignTopWithPanel="True"/>
+                               RelativePanel.AlignTopWithPanel="True" AutomationProperties.IsRequiredForForm="True"/>
                                 <TextBlock Text="{x:Bind Description}" 
                                Name="Description"
                                RelativePanel.Below="Title"/>
                                 <Button Name="StartTimer" 
-                            Content="Start Timer" 
-                            Margin="0,30,10,10"
-                            RelativePanel.Below="Description"
-                            RelativePanel.LeftOf="DeleteTask"
-                            Click="StartTimer_Click"/>
+                                        Content="Start Timer" 
+                                        Margin="0,30,10,10"
+                                        AccessKey="{x:Bind id}"
+                                        RelativePanel.Below="Description"
+                                        RelativePanel.LeftOf="DeleteTask"
+                                        Click="CreateTimer_Click"/>  
                                 <Button Name="DeleteTask"
                                         Content="Delete Task"
                                         RelativePanel.Below="Description"

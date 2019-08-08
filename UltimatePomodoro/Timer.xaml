@@ -2,11 +2,9 @@
     x:Class="UltimatePomodoro.Timer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UltimatePomodoro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:data ="using:UltimatePomodoro.Models"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
@@ -17,7 +15,8 @@
         </Grid.ColumnDefinitions>
 
         <RelativePanel Grid.Column="1">
-            <TextBlock Text=""
+            <TextBlock Text="{x:Bind current.timeString}"
+                       x:DefaultBindMode="OneWay"
                        Name="TimerTextBox"
                        RelativePanel.AlignVerticalCenterWithPanel="True"
                        RelativePanel.AlignHorizontalCenterWithPanel="True"

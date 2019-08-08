@@ -12,12 +12,14 @@ namespace UltimatePomodoro.Models
     public static class TaskManager
     {
         public static Dictionary<string,DaySchedule> DailyTasks = new Dictionary<string, DaySchedule>();
+        public static TimeManager currentTimer;
+        public static Boolean timerActive = false;
     }
 
     public class Task
     {
         public string Title { get; set; }
-        public int id { get; set; }
+        public string id { get; set; }
         public string Description { get; set; }
         public TimeManager Pomodoro {get; set;}
 

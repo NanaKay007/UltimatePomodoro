@@ -50,12 +50,19 @@ namespace UltimatePomodoro
             if (NavigationItems.SelectedIndex.ToString() == "1")
             {
                 View.Navigate(typeof(Schedule));
-                Header.Text = selected.Name;
+                
             } else if (NavigationItems.SelectedIndex.ToString() == "0")
             {
                 View.Navigate(typeof(TimerView));
-                Header.Text = selected.Name;
+                
+            } else if (NavigationItems.SelectedIndex.ToString() == "2")
+            {
+                View.Navigate(typeof(History));
+            } else if (NavigationItems.SelectedIndex.ToString() == "3")
+            {
+                View.Navigate(typeof(Profile));
             }
+            Header.Text = selected.Name;
         }
     }
 }
