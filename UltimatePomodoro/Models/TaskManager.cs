@@ -23,7 +23,6 @@ namespace UltimatePomodoro.Models
         public string Description { get; set; }
         public TimeManager Pomodoro {get; set;}
         public ObservableCollection<string> tags;
-        
         public void setTags (string text) {
             if (text != "")
             {
@@ -46,7 +45,7 @@ namespace UltimatePomodoro.Models
         public void AddTask(Task task)
         {
             tasks.Add(task);
-            this.onPropertyChanged();
+            this.onPropertyChanged("tasks");
         }
         public void onPropertyChanged([CallerMemberName] string propertyName=null)
         {

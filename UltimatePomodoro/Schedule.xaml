@@ -67,8 +67,9 @@
                     
                 </StackPanel>
                 <GridView Name="TaskCards"
-                          x:DefaultBindMode="OneWay"
+                          x:DefaultBindMode="TwoWay"
                           RelativePanel.Below="NewTaskForm"
+                          
                           ItemsSource="{x:Bind CurrentTasks.tasks}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="data:Task">
