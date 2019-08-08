@@ -67,6 +67,8 @@ namespace UltimatePomodoro
             string id = Guid.NewGuid().ToString();
 
             Task task = new Task { Title = Title.Text, Description = Description.Text ,id = id};
+            task.setTags(Tags.Text);
+
             try
             {
                 CurrentTasks = TaskManager.DailyTasks[calendarPos];

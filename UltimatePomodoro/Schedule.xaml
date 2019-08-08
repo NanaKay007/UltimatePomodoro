@@ -47,6 +47,9 @@
                              Margin="0,0,0,30"
                              Name="Title"
                              />
+                    <TextBox PlaceholderText="Tags  e.g 'programming,blogging'"
+                             Margin="0,0,0,30"
+                             Name="Tags"/>
                     <TextBox PlaceholderText="Description"
                              x:Name="Description"/>
                     <StackPanel Orientation="Horizontal"
