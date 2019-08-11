@@ -7,8 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:data ="using:UltimatePomodoro.Models"
+    Name="SchedulePage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="650"/>
@@ -69,7 +70,6 @@
                 <GridView Name="TaskCards"
                           x:DefaultBindMode="TwoWay"
                           RelativePanel.Below="NewTaskForm"
-                          
                           ItemsSource="{x:Bind CurrentTasks.tasks}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="data:Task">

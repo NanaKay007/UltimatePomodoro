@@ -95,8 +95,10 @@ namespace UltimatePomodoro
             CurrentTasks.tasks.Where(p => p.id == button_sender.AccessKey).First().Pomodoro = timer;
             
             TaskManager.currentTimer = timer;
+            var mainPage = VisualTreeHelper.GetParent(this);
             
             Frame.Navigate(typeof(Timer));
+
         }
 
         private void DeleteTask_Click(object sender, RoutedEventArgs e)
@@ -109,6 +111,7 @@ namespace UltimatePomodoro
                 if (task.id == button_sender.AccessKey)
                 {
                     CurrentTasks.tasks.Remove(task);
+                    TaskManager.currentTimer = null;
                     break;
                 }
             }

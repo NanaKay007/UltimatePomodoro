@@ -10,30 +10,48 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="400"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <RelativePanel Grid.Column="1">
-            <TextBlock Text="{x:Bind current.timeString}"
+            <Canvas>
+                <Ellipse Height="250" 
+                     Width="250"
+                         Canvas.Left="70"
+                         Canvas.Top="250"
+                     Stroke="Black" 
+                     />
+                <TextBlock Text="{x:Bind current.timeString}"
+                           
                        x:DefaultBindMode="OneWay"
                        Name="TimerTextBox"
-                       RelativePanel.AlignVerticalCenterWithPanel="True"
-                       RelativePanel.AlignHorizontalCenterWithPanel="True"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
+                           Canvas.Left="130"
+                           Canvas.Top="330"
                    FontSize="56"/>
+                <StackPanel Canvas.Left="130"
+                            Orientation="Horizontal"
+                            Canvas.Top="550">
+                    
+                    <Button
+                        FontFamily="Segoe MDL2 Assets"
+                        Name="StartTimer"
+                        Click="StartTimer_Click"
+                        Width="56"
+                        Height="56"
+                >
+                        <SymbolIcon Name="icon" Symbol="Play"/>
+                    </Button>
+                    <Button Width="56"
+                        Height="56"
+                            Name="RestartTimer"
+                            Click="RestartTimer_Click">
+                        <SymbolIcon Name="RestartIcon" Symbol="Refresh"/>
+                    </Button>
+                </StackPanel>
+                
+            </Canvas>
             
-            <Button Content="&#xE102;"
-                    FontFamily="Segoe MDL2 Assets"
-                    Name="StartTimer"
-                    Click="StartTimer_Click"
-                    Width="56"
-                    Height="56"
-                    Margin="0,30,0,0"
-                    RelativePanel.Below="TimerTextBox"
-                    RelativePanel.AlignHorizontalCenterWithPanel="True"
-                />
         </RelativePanel>
         
     </Grid>

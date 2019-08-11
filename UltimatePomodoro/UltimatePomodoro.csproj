@@ -127,6 +127,7 @@
     </Compile>
     <Compile Include="Models\TaskManager.cs" />
     <Compile Include="Models\TimeManger.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Pomodoro.xaml.cs">
       <DependentUpon>Pomodoro.xaml</DependentUpon>
     </Compile>

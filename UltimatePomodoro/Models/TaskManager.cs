@@ -22,7 +22,7 @@ namespace UltimatePomodoro.Models
         public string id { get; set; }
         public string Description { get; set; }
         public TimeManager Pomodoro {get; set;}
-        public ObservableCollection<string> tags;
+        public ObservableCollection<string> tags = new ObservableCollection<string>();
         public void setTags (string text) {
             if (text != "")
             {
@@ -34,6 +34,8 @@ namespace UltimatePomodoro.Models
             }
             
         }
+
+        
     }
 
     public class DaySchedule : INotifyPropertyChanged
