@@ -89,15 +89,31 @@ namespace UltimatePomodoro
 
         private void CreateTimer_Click(object sender, RoutedEventArgs e)
         {
-            TimeManager timer = new TimeManager();
-            Button button_sender = (Button)sender;
 
-            CurrentTasks.tasks.Where(p => p.id == button_sender.AccessKey).First().Pomodoro = timer;
+            var selected = Scheduler.SelectedDates.First().DateTime;
+            var today = DateTime.Today;
+
+            if (selected.Date == today)
+            {
+                TimeManager timer = new TimeManager();
+                Button button_sender = (Button)sender;
+                Task task = CurrentTasks.tasks.Where(p => p.id == button_sender.AccessKey).First();
+                task.Pomodoro = timer;
+
+                TaskManager.currentTimer = timer;
+                TaskManager.currentTask = task;
+                var datacontext = (sender as Button).DataContext;
+                MainPage mainpage = datacontext as MainPage;
+                if (mainpage != null)
+                {
+                    mainpage.title = "Timer";
+                }
+                Frame.Navigate(typeof(Timer));
+            } else
+            {
+                Date.Text = "This task is not marked for today; Only today's tasks can be timed";
+            }
             
-            TaskManager.currentTimer = timer;
-            var mainPage = VisualTreeHelper.GetParent(this);
-            
-            Frame.Navigate(typeof(Timer));
 
         }
 

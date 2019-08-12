@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -20,15 +21,42 @@ namespace UltimatePomodoro
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page , INotifyPropertyChanged
     {
+        private string _title;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                OnPropertyChanged("title");
+            }
+            
+        }
+
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+            
+        }
+
         public MainPage()
         {
             this.InitializeComponent();
             View.Navigate(typeof(TimerView));
-            Header.Text = "Timer";
-            
+            this.DataContext = this;
+            title = "Timer";
+            NavigationItems.SelectedIndex = 0;
         }
+
 
         
 
@@ -62,7 +90,7 @@ namespace UltimatePomodoro
             {
                 View.Navigate(typeof(Profile));
             }
-            Header.Text = selected.Name;
+            title = selected.Name;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace UltimatePomodoro.Models
 {
@@ -18,6 +19,9 @@ namespace UltimatePomodoro.Models
         public  TimeSpan span;
         public string timeString = "00:00";
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public Symbol playbuttonIcon = Symbol.Play;
+        public Boolean isTimerPlay = false;
+        public string status;
 
         public TimeManager()
         {
@@ -30,6 +34,7 @@ namespace UltimatePomodoro.Models
             
             watch.Start();
             time.Start();
+
         }
         
         public void pauseTimer()
@@ -57,8 +62,9 @@ namespace UltimatePomodoro.Models
             this.onPropertyChanged("timeString");
             if (new TimeSpan(span.Hours,span.Minutes,span.Seconds) == new TimeSpan(0, 25, 0))
             {
-                pauseTimer();
-                
+                resetTimer();
+                playbuttonIcon = Symbol.Play;
+                this.onPropertyChanged("playbuttonIcon");
             }
         }
 

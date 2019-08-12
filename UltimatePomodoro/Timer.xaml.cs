@@ -25,7 +25,7 @@ namespace UltimatePomodoro
     public sealed partial class Timer : Page, INotifyPropertyChanged
     {
         public TimeManager current;
-        public Boolean isTimerPlay = false;
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,7 +33,7 @@ namespace UltimatePomodoro
         {
             this.InitializeComponent();
             current = TaskManager.currentTimer;
-            
+            TaskName.Text = TaskManager.currentTask.Title;
         }
 
         public void onPropertyChanged(string propertyName)
@@ -54,7 +54,7 @@ namespace UltimatePomodoro
         private void StartTimer_Click(object sender, RoutedEventArgs e)
         {
             
-            if (!isTimerPlay)
+            if (!current.isTimerPlay)
             {
                 current.startTimer();
                 icon.Symbol = Symbol.Pause;
@@ -64,7 +64,7 @@ namespace UltimatePomodoro
                 current.pauseTimer();
                 icon.Symbol = Symbol.Play;
             }
-            isTimerPlay = !isTimerPlay;
+            current.isTimerPlay = !current.isTimerPlay;
             
         }
 
@@ -73,7 +73,7 @@ namespace UltimatePomodoro
         {
             current.resetTimer();
             icon.Symbol = Symbol.Play;
-            isTimerPlay = false;
+            current.isTimerPlay = false;
         }
     }
 

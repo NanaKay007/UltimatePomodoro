@@ -13,7 +13,13 @@
             <ColumnDefinition Width="400"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-
+        <TextBlock Text="" Name="TaskName"
+                   FontWeight="Bold"
+                   FontSize="24"
+                   Margin="10,10,0,0"/>
+        <TextBlock Text="" Name="Status"
+                   FontSize="24"
+                   Margin="10"/>
         <RelativePanel Grid.Column="1">
             <Canvas>
                 <Ellipse Height="250" 
@@ -29,6 +35,7 @@
                            Canvas.Left="130"
                            Canvas.Top="330"
                    FontSize="56"/>
+                
                 <StackPanel Canvas.Left="130"
                             Orientation="Horizontal"
                             Canvas.Top="550">
@@ -40,7 +47,8 @@
                         Width="56"
                         Height="56"
                 >
-                        <SymbolIcon Name="icon" Symbol="Play"/>
+                        <SymbolIcon Name="icon" Symbol="{x:Bind current.playbuttonIcon}"
+                                    x:DefaultBindMode="OneWay"/>
                     </Button>
                     <Button Width="56"
                         Height="56"

@@ -13,6 +13,7 @@ namespace UltimatePomodoro.Models
     {
         public static Dictionary<string,DaySchedule> DailyTasks = new Dictionary<string, DaySchedule>();
         public static TimeManager currentTimer;
+        public static Task currentTask;
         public static Boolean timerActive = false;
     }
 

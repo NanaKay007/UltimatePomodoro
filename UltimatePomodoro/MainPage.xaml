@@ -31,20 +31,22 @@
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button Content="&#xE700;"
                 Height="40"
-                Width="56"
+                Width="52"
                 FontFamily="Segoe MDL2 Assets"
                 Background="#FF3C3B3B"
                 Foreground="White"
                 Name="Hamburger"
                 Click="Hamburger_Click"
                 FontSize="24"/>
-            <TextBlock Text="" FontSize="24" FontWeight="Bold" Name="Header"
+            <TextBlock Text="{x:Bind title}"
+                       x:DefaultBindMode="OneWay"
+                       FontSize="24" FontWeight="Bold" Name="Header"
                    Margin="10,0,0,0"/>
         </StackPanel>
         
         <SplitView OpenPaneLength="160"
                    Name="MySplitView"
-                   CompactPaneLength="56"
+                   CompactPaneLength="52"
                    Grid.Row="1"
                    
                    DisplayMode="CompactOverlay">
