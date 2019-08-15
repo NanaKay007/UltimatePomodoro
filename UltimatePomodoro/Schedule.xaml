@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:data ="using:UltimatePomodoro.Models"
+    xmlns:validate="using:Template10.Controls.Validation"
     Name="SchedulePage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     
@@ -45,13 +46,20 @@
                             RelativePanel.Below="NewTaskButton"
                             RelativePanel.AlignHorizontalCenterWithPanel="True"
                             >
-                    <TextBox PlaceholderText="Title"
+                    <validate:ControlWrapper PropertyName="Title">
+                        <TextBox PlaceholderText="Title"
+                                 Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              Margin="0,0,0,30"
                              Name="Title"
                              />
-                    <TextBox PlaceholderText="Tags  e.g 'programming,blogging'"
+                    </validate:ControlWrapper>
+                    <validate:ControlWrapper PropertyName="Tags">
+                        <TextBox PlaceholderText="Tags  e.g 'programming,blogging'"
+                                 Text="{Binding Tags,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              Margin="0,0,0,30"
                              Name="Tags"/>
+                    </validate:ControlWrapper>
+                    
                     <TextBox PlaceholderText="Description"
                              x:Name="Description"/>
                     <StackPanel Orientation="Horizontal"

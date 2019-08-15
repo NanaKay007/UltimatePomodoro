@@ -34,6 +34,7 @@ namespace UltimatePomodoro
             this.InitializeComponent();
             current = TaskManager.currentTimer;
             TaskName.Text = TaskManager.currentTask.Title;
+            icon.Symbol = current.playbuttonIcon;
         }
 
         public void onPropertyChanged(string propertyName)
@@ -57,12 +58,12 @@ namespace UltimatePomodoro
             if (!current.isTimerPlay)
             {
                 current.startTimer();
-                icon.Symbol = Symbol.Pause;
+                
             }
             else
             {
                 current.pauseTimer();
-                icon.Symbol = Symbol.Play;
+                
             }
             current.isTimerPlay = !current.isTimerPlay;
             

@@ -34,6 +34,8 @@ namespace UltimatePomodoro.Models
             
             watch.Start();
             time.Start();
+            playbuttonIcon = Symbol.Pause;
+            onPropertyChanged("playbuttonIcon");
 
         }
         
@@ -41,6 +43,8 @@ namespace UltimatePomodoro.Models
         {
             time.Stop();
             watch.Stop();
+            playbuttonIcon = Symbol.Play;
+            onPropertyChanged("playbuttonIcon");
         }
 
         public void resetTimer()

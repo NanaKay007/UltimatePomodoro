@@ -17,20 +17,30 @@ namespace UltimatePomodoro.Models
         public static Boolean timerActive = false;
     }
 
-    public class Task
+    public class Task : Template10.Validation.ValidatableModelBase
     {
-        public string Title { get; set; }
+        public string Title { get { return Read<string>(); } set { Write<string>(value); } }
         public string id { get; set; }
         public string Description { get; set; }
         public TimeManager Pomodoro {get; set;}
-        public ObservableCollection<string> tags = new ObservableCollection<string>();
+        public ObservableCollection<string> _tags = new ObservableCollection<string>();
+        private string _tags_string;
+        public string tags
+        {
+            get { return Read<string>(); }
+            set
+            {
+                Write<string>(value);
+                setTags(tags);
+            }
+        }
         public void setTags (string text) {
             if (text != "")
             {
                 string[] tags_split = text.Split(',');
                 foreach (string tag in tags_split)
                 {
-                    tags.Add(tag);
+                    _tags.Add(tag);
                 }
             }
             
