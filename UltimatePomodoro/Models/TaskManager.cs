@@ -15,14 +15,23 @@ namespace UltimatePomodoro.Models
         public static TimeManager currentTimer;
         public static Task currentTask;
         public static Boolean timerActive = false;
+        public static ObservableCollection<Project> projects = new ObservableCollection<Project>(); 
+    }
+
+    public class Project
+    {
+        public string title;
+        public ObservableCollection<DaySchedule> tasks = new ObservableCollection<DaySchedule>();
     }
 
     public class Task : Template10.Validation.ValidatableModelBase
     {
         public string Title { get { return Read<string>(); } set { Write<string>(value); } }
         public string id { get; set; }
+        public string date;
         public string Description { get; set; }
         public TimeManager Pomodoro {get; set;}
+        public Boolean isComplete = false;
         public ObservableCollection<string> _tags = new ObservableCollection<string>();
         private string _tags_string;
         public string tags

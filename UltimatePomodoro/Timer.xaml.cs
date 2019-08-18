@@ -47,11 +47,7 @@ namespace UltimatePomodoro
             }
         }
 
-        private void TimerTextBox_LayoutUpdated(object sender, object e)
-        {
-            
-        }
-
+       
         private void StartTimer_Click(object sender, RoutedEventArgs e)
         {
             
@@ -70,11 +66,22 @@ namespace UltimatePomodoro
         }
 
 
-        private void RestartTimer_Click(object sender, RoutedEventArgs e)
+       
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             current.resetTimer();
             icon.Symbol = Symbol.Play;
             current.isTimerPlay = false;
+        }
+
+        private void NextTask_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PreviousTask_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

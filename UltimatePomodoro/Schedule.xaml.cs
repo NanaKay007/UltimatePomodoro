@@ -203,6 +203,11 @@ namespace UltimatePomodoro
             Description.Text = "";
             NewTaskButton.Visibility = Visibility.Visible;
         }
+
+        private void TaskCard_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+
+        }
     }
 
 

@@ -10,7 +10,7 @@
     xmlns:validate="using:Template10.Controls.Validation"
     Name="SchedulePage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    
+  
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="650"/>
@@ -46,20 +46,15 @@
                             RelativePanel.Below="NewTaskButton"
                             RelativePanel.AlignHorizontalCenterWithPanel="True"
                             >
-                    <validate:ControlWrapper PropertyName="Title">
-                        <TextBox PlaceholderText="Title"
+                    <TextBox PlaceholderText="Title"
                                  Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              Margin="0,0,0,30"
                              Name="Title"
                              />
-                    </validate:ControlWrapper>
-                    <validate:ControlWrapper PropertyName="Tags">
-                        <TextBox PlaceholderText="Tags  e.g 'programming,blogging'"
+                    <TextBox PlaceholderText="Tags  e.g 'programming,blogging'"
                                  Text="{Binding Tags,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              Margin="0,0,0,30"
                              Name="Tags"/>
-                    </validate:ControlWrapper>
-                    
                     <TextBox PlaceholderText="Description"
                              x:Name="Description"/>
                     <StackPanel Orientation="Horizontal"
@@ -88,6 +83,7 @@
                                Name="TaskCard"
                                RelativePanel.AlignHorizontalCenterWithPanel="True"
                                RelativePanel.Below="Date"
+                               RightTapped="TaskCard_RightTapped"
                                Background="{ThemeResource AppBarBackgroundThemeBrush}">
                                 <TextBlock Text="{x:Bind Title}" 
                                Name="Title" 

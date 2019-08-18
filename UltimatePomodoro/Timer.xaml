@@ -13,54 +13,93 @@
             <ColumnDefinition Width="400"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="" Name="TaskName"
-                   FontWeight="Bold"
-                   FontSize="24"
-                   Margin="10,10,0,0"/>
-        <TextBlock Text="" Name="Status"
-                   FontSize="24"
-                   Margin="10"/>
-        <RelativePanel Grid.Column="1">
-            <Canvas>
-                <Ellipse Height="250" 
+       
+        
+        <RelativePanel Grid.Column="0" Grid.ColumnSpan="3">
+            <Button x:Name="PreviousTask"
+                FontFamily="Segoe MDL2 Assets"
+                Content="&#xE00E;"
+                Background="Transparent"
+                RelativePanel.AlignLeftWithPanel="True"
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                Click="PreviousTask_Click"
+                FontSize="46" VerticalAlignment="Center"/>
+            <Button x:Name="NextTask"
+                FontFamily="Segoe MDL2 Assets"
+                Content="&#xE00F;"
+                Background="Transparent"
+                RelativePanel.AlignRightWithPanel="True"
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                FontSize="46"
+                Click="NextTask_Click"
+                VerticalAlignment="Center"
+                Margin="383,0,0,0"/>
+            <StackPanel RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignVerticalCenterWithPanel="True">
+                <TextBlock Text="current Task"
+                           FontSize="16"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Study" Name="TaskName"
+                   HorizontalAlignment="Center"
+                   FontSize="32"
+                   Margin="10,10,0,150"/>
+                <Canvas x:Name="canvas"
+                    Width="232"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    RelativePanel.AlignVerticalCenterWithPanel="True"
+                    Height="92">
+                    <Line Y1="300"
+                      Stroke="Black"
+                      X1="30"
+                      X2="80"
+                      Y2="250" Canvas.Left="-57" Canvas.Top="-358"/>
+
+                    <Line Y1="300"
+                      Stroke="Black"
+                      X1="130"
+                      X2="80"
+                      Y2="250" Canvas.Left="117" Canvas.Top="-360"/>
+                    <Ellipse Height="250" 
                      Width="250"
-                         Canvas.Left="70"
-                         Canvas.Top="250"
+                         Canvas.Left="-9"
+                         Canvas.Top="-79"
                      Stroke="Black" 
                      />
-                <TextBlock Text="{x:Bind current.timeString}"
-                           
+                    <TextBlock Text="{x:Bind current.timeString}"
                        x:DefaultBindMode="OneWay"
                        Name="TimerTextBox"
-                           Canvas.Left="130"
-                           Canvas.Top="330"
-                   FontSize="56"/>
-                
-                <StackPanel Canvas.Left="130"
-                            Orientation="Horizontal"
-                            Canvas.Top="550">
-                    
-                    <Button
+                           Canvas.Left="61"
+                           Canvas.Top="10"
+                   FontSize="48"/>
+                    <TextBlock Text="Work"
+                           Name="Status"
+                           FontSize="16"
+                           Canvas.Left="99"
+                           Canvas.Top="92"/>
+                </Canvas>
+                <StackPanel RelativePanel.Below="canvas"
+                        Margin="0,150,0,0"
+                        Orientation="Vertical"
+                            >
+                    <Button HorizontalAlignment="Center"
                         FontFamily="Segoe MDL2 Assets"
-                        Name="StartTimer"
+                        Background="Transparent"
+                        x:Name="StartTimer"
+                        FontSize="48"
                         Click="StartTimer_Click"
                         Width="56"
                         Height="56"
                 >
-                        <SymbolIcon Name="icon" Symbol="{x:Bind current.playbuttonIcon}"
+                        <SymbolIcon x:Name="icon" Symbol="{x:Bind Path=current.playbuttonIcon}"
                                     x:DefaultBindMode="OneWay"/>
                     </Button>
-                    <Button Width="56"
-                        Height="56"
-                            Name="RestartTimer"
-                            Click="RestartTimer_Click">
-                        <SymbolIcon Name="RestartIcon" Symbol="Refresh"/>
-                    </Button>
+                    <HyperlinkButton 
+                        HorizontalAlignment="Center"
+                        Click="HyperlinkButton_Click">
+                        Reset Timer
+                    </HyperlinkButton>
                 </StackPanel>
-                
-            </Canvas>
-            
+            </StackPanel>
         </RelativePanel>
-        
     </Grid>
 </Page>
