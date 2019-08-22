@@ -19,8 +19,8 @@
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
             <Setter Property="FontSize" Value="24"/>
         </Style>
-        <Style TargetType="ListBoxItem" x:Key="NavItem">
-            <Setter Property="Margin" Value="0,20,0,0"/>
+        <Style TargetType="NavigationViewItem" x:Key="NavItem">
+            <Setter Property="Height" Value="60"/>
         </Style>
     </Page.Resources>
     <Grid>
@@ -28,77 +28,58 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <Button Content="&#xE700;"
-                Height="40"
-                Width="52"
-                FontFamily="Segoe MDL2 Assets"
-                Background="#FF3C3B3B"
-                Foreground="White"
-                Name="Hamburger"
-                Click="Hamburger_Click"
-                FontSize="24"/>
-            <TextBlock Text="{x:Bind title}"
-                       x:DefaultBindMode="OneWay"
-                       FontSize="24" FontWeight="Bold" Name="Header"
-                   Margin="10,0,0,0"/>
-        </StackPanel>
-        
-        <SplitView OpenPaneLength="160"
-                   Name="MySplitView"
-                   CompactPaneLength="52"
-                   Grid.Row="1"
-                   
-                   DisplayMode="CompactOverlay">
-            <SplitView.Pane >
-                <ListBox SelectionMode="Single"
-                         Name="NavigationItems"
-                         SelectionChanged="NavigationItems_SelectionChanged">
-                    <ListBoxItem Style="{StaticResource NavItem}"
-                                 
-                                 Name="Timer">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xECC5;" 
+        <NavigationView 
+            Name="MySplitView"
+            Grid.RowSpan="2"
+            ItemInvoked="MySplitView_ItemInvoked"
+            Header="Timer"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+            IsBackButtonVisible="Collapsed"
+            SelectionChanged="NavigationView_SelectionChanged">
+            <NavigationView.MenuItems
+                >
+                <NavigationViewItem Name="Timer"
+                                    Style="{StaticResource NavItem}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xECC5;" 
                                        Style="{StaticResource NavIcon}"
                                        />
-                            <TextBlock Text="Timer"
+                        <TextBlock Text="Timer"
                                        Style="{StaticResource NavText}"
                                       />
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Style="{StaticResource NavItem}"
-                                 Name="Schedule">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE161;"
+                    </StackPanel>
+                </NavigationViewItem>
+                <NavigationViewItem Name="Schedule"
+                                    Style="{StaticResource NavItem}">
+                    <StackPanel Orientation="Horizontal"
+                                >
+                        <TextBlock Text="&#xE161;"
                                        Style="{StaticResource NavIcon}"
                                        />
-                            <TextBlock Text="Schedule"
+                        <TextBlock Text="Schedule"
                                        Style="{StaticResource NavText}"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Style="{StaticResource NavItem}"
-                                 Name="History">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Style="{StaticResource NavIcon}"
+                    </StackPanel>
+                </NavigationViewItem>
+                <NavigationViewItem Name="History"
+                                    Style="{StaticResource NavItem}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource NavIcon}"
                                        Text="&#xF0E2;"/>
-                            <TextBlock Style="{StaticResource NavText}"
+                        <TextBlock Style="{StaticResource NavText}"
                                        Text="History"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Style="{StaticResource NavItem}"
-                                 Name="Profile">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE13D;"
+                    </StackPanel>
+                </NavigationViewItem>
+                <NavigationViewItem Name="Profile"
+                                    Style="{StaticResource NavItem}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE13D;"
                                        Style="{StaticResource NavIcon}"/>
-                            <TextBlock Text="Profile"
+                        <TextBlock Text="Profile"
                                        Style="{StaticResource NavText}"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                </ListBox>
-            </SplitView.Pane>
-            <SplitView.Content>
-                <Frame Name="View"/>
-            </SplitView.Content>
-        </SplitView>
+                    </StackPanel>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+            <Frame Name="View"/>
+        </NavigationView>
     </Grid>
 </Page>

@@ -54,11 +54,8 @@ namespace UltimatePomodoro
             View.Navigate(typeof(TimerView));
             this.DataContext = this;
             title = "Timer";
-            NavigationItems.SelectedIndex = 0;
+            MySplitView.SelectedItem = MySplitView.MenuItems.First();
         }
-
-
-        
 
        
         private void Hamburger_Click(object sender, RoutedEventArgs e)
@@ -73,24 +70,37 @@ namespace UltimatePomodoro
 
         private void NavigationItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListBoxItem selected = (ListBoxItem) NavigationItems.SelectedItem;
+            
+        }
 
-            if (NavigationItems.SelectedIndex.ToString() == "1")
+        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            
+        }
+
+        private void MySplitView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            NavigationViewItem navitem = (NavigationViewItem) sender.SelectedItem;
+
+            if (navitem.Name == "Schedule")
             {
                 View.Navigate(typeof(Schedule));
-                
-            } else if (NavigationItems.SelectedIndex.ToString() == "0")
+
+            }
+            else if (navitem.Name == "Timer")
             {
                 View.Navigate(typeof(TimerView));
-                
-            } else if (NavigationItems.SelectedIndex.ToString() == "2")
+
+            }
+            else if (navitem.Name == "History")
             {
                 View.Navigate(typeof(History));
-            } else if (NavigationItems.SelectedIndex.ToString() == "3")
+            }
+            else if (navitem.Name == "Profile")
             {
                 View.Navigate(typeof(Profile));
             }
-            title = selected.Name;
+            MySplitView.Header = navitem.Name;
         }
     }
 }
