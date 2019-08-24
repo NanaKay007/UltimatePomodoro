@@ -100,7 +100,7 @@ namespace UltimatePomodoro
             {
                 View.Navigate(typeof(Profile));
             }
-            MySplitView.Header = navitem.Name;
+            //MySplitView.Header = navitem.Name;
         }
     }
 }

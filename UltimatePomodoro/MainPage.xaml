@@ -28,14 +28,19 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>-->
         <NavigationView 
             Name="MySplitView"
             Grid.RowSpan="2"
+            IsPaneOpen="False"
+            OpenPaneLength="300"
+            AllowDrop="False"
             ItemInvoked="MySplitView_ItemInvoked"
-            Header="Timer"
-            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
             IsBackButtonVisible="Collapsed"
-            SelectionChanged="NavigationView_SelectionChanged">
+            SelectionChanged="NavigationView_SelectionChanged" FocusVisualPrimaryBrush="White">
             <NavigationView.MenuItems
                 >
                 <NavigationViewItem Name="Timer"
@@ -79,7 +84,8 @@
                     </StackPanel>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
-            <Frame Name="View"/>
+            <Frame Name="View" Margin="0,-58,0,0"
+                   />
         </NavigationView>
     </Grid>
 </Page>

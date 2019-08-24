@@ -8,111 +8,179 @@
     mc:Ignorable="d"
     xmlns:data ="using:UltimatePomodoro.Models"
     xmlns:validate="using:Template10.Controls.Validation"
+    xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     Name="SchedulePage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-  
+    <Page.Resources>
+        <Style TargetType="ListViewItem" x:Key="ViewItem">
+            <Setter Property="Margin" Target="ListViewItem" Value="0,20,0,20"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="FormBox">
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="30,30,0,0"/>
+        </Style>
+    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="650"/>
+            <ColumnDefinition Width="350"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Choose a day to set a schedule"
-                   Margin="100,20,0,0"/>
-        <CalendarView Name="Scheduler"
-                      SelectionMode="Single"
-                      
-                      HorizontalAlignment="Center"
-                      Width="550"
-                      Height="550"
-                      
-                      SelectedDatesChanged="Scheduler_SelectedDatesChanged"/>
-        <ScrollViewer Grid.Column="1">
-            <RelativePanel>
-                <TextBlock Text="Please select a day on the calendar"
-                           Height="50"
-                           
-                           RelativePanel.AlignTopWithPanel="True"
-                       Name="Date"/>
-                <Button x:Name="NewTaskButton"
-                        Click="NewTaskButton_Click"
-                        RelativePanel.Below="Date"
-                        RelativePanel.AlignHorizontalCenterWithPanel="True"
-                        Margin="0,0,0,50"
-                        Visibility="Collapsed"
-                        Content="New Task"/>
-                <StackPanel x:Name="NewTaskForm"
-                            Width="400"
-                            Visibility="Collapsed"
-                            RelativePanel.Below="NewTaskButton"
-                            RelativePanel.AlignHorizontalCenterWithPanel="True"
-                            >
-                    <TextBox PlaceholderText="Title"
-                                 Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                             Margin="0,0,0,30"
-                             Name="Title"
-                             />
-                    <TextBox PlaceholderText="Tags  e.g 'programming,blogging'"
-                                 Text="{Binding Tags,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                             Margin="0,0,0,30"
-                             Name="Tags"/>
-                    <TextBox PlaceholderText="Description"
-                             x:Name="Description"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <ListView Grid.Column="0"
+                   Grid.Row="0"
+                   Grid.RowSpan="2"
+                  SelectionMode="None"
+                  Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
+                   >
+            <ListViewItem Style="{StaticResource ViewItem}">
+                    <StackPanel Orientation="Horizontal"
+                                    
+                                    Width="300"
+                                    HorizontalAlignment="Stretch">
+                        <TextBlock Text="Projects"
+                               FontSize="32"
+                               FontWeight="Light"/>
+                        <Button x:Name="NewProject"
+                                Click="NewProject_Click"
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                Margin="150,0,20,0"
+                                    Width="40"
+                                    Height="40"
+                                >
+                            <SymbolIcon Symbol="Add"/>
+                        </Button>
+                    </StackPanel>
+                </ListViewItem>
+            <ListViewItem Style="{StaticResource ViewItem}">
+                    <AutoSuggestBox QueryIcon="Find" 
+                                    PlaceholderText="Search Project"
+                                        Width="300"/>
+                </ListViewItem>
+            <ListViewItem Name="ProjectForm"
+                          Visibility="Collapsed"
+                          >
+                <StackPanel Orientation="Vertical">
+                    <TextBox PlaceholderText="Enter Project Title"
+                         Width="300"
+                         Name="ProjectTitle"
+                         Background="Transparent"
+                         BorderThickness="0,0,0,1"/>
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right">
-                        <Button Content="Cancel"
-                                Name="CloseFormButton"
-                                Click="CloseFormButton_Click"
-                                Margin="0,50,20,0"/>
-                        <Button Content="Create Task"
-                                    HorizontalAlignment="Right"
-                                    Margin="0,50,0,0"
-                                    Click="CreateTask_Click"
-                                Name="CreateTask"/>
+                        <Button Margin="0,30,10,0"
+                                HorizontalAlignment="Right"
+                            x:Name="AddProject"
+                            Click="AddProject_Click">Add Project</Button>
+                        <Button Margin="20,30,0,0"
+                                x:Name="Cancel"
+                                Click="Cancel_Click"
+                                HorizontalAlignment="Right">Cancel</Button>
                     </StackPanel>
-                    
                 </StackPanel>
-                <GridView Name="TaskCards"
-                          x:DefaultBindMode="TwoWay"
-                          RelativePanel.Below="NewTaskForm"
-                          ItemsSource="{x:Bind CurrentTasks.tasks}">
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="data:Task">
-                            <RelativePanel MinHeight="100"
-                               MinWidth="200"
-                               Width="500"
-                               Name="TaskCard"
-                               RelativePanel.AlignHorizontalCenterWithPanel="True"
-                               RelativePanel.Below="Date"
-                               RightTapped="TaskCard_RightTapped"
-                               Background="{ThemeResource AppBarBackgroundThemeBrush}">
-                                <TextBlock Text="{x:Bind Title}" 
-                               Name="Title" 
-                               RelativePanel.AlignTopWithPanel="True" AutomationProperties.IsRequiredForForm="True"/>
-                                <TextBlock Text="{x:Bind Description}" 
-                               Name="Description"
-                               RelativePanel.Below="Title"/>
-                                <Button Name="StartTimer" 
-                                        Content="Start Timer" 
-                                        Margin="0,30,10,10"
-                                        AccessKey="{x:Bind id}"
-                                        RelativePanel.Below="Description"
-                                        RelativePanel.LeftOf="DeleteTask"
-                                        Click="CreateTimer_Click"/>  
-                                <Button Name="DeleteTask"
-                                        Content="Delete Task"
-                                        RelativePanel.Below="Description"
-                                        Margin="0,30,10,10"
-                                        RelativePanel.AlignRightWithPanel="True"
-                                        AccessKey="{x:Bind id}"
-                                        Click="DeleteTask_Click"/>
-                            </RelativePanel>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
-
-                
-
-            </RelativePanel>
-        </ScrollViewer>
+               
+            </ListViewItem>
+            <ListViewItem Margin="0,30,0,30">
+                <TextBlock
+                    FontSize="24"
+                    FontWeight="Light">Your Projects</TextBlock>
+            </ListViewItem>
+            <ListView ItemsSource="{x:Bind projects}"
+                      Name="ProjectsList"
+                      SelectionMode="Single">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="data:Project">
+                        <ListViewItem Background="#FFF0EFEF"
+                                      AccessKey="{x:Bind id}"
+                                      Tapped="ProjectTapped"
+                                      Width="350">
+                            <TextBlock Text="{x:Bind title}"
+                                       />
+                        </ListViewItem>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ListView>
+        <CommandBar IsOpen="True" IsSticky="True"
+                    Grid.Row="0"
+                    Grid.Column="1">
+            <CommandBar.Content>
+                <TextBlock Text="" 
+                   Grid.Row="1"
+                   FontSize="24"
+                   FontWeight="Light"
+                   Margin="20,0,0,0"
+                   VerticalAlignment="Center"
+                   Name="ProjectName"/>
+            </CommandBar.Content>
+            <AppBarButton Icon="Delete" Label="Delete Project" Click="DeleteProject" Width="90"/>
+            <AppBarButton Icon="Add" IsCompact="False" Label="New Task" Click="NewTaskClick"/>
+        </CommandBar>
+        <StackPanel x:Name="NewTaskForm"
+                    Visibility="Collapsed"
+                    Grid.Column="1"
+                    Grid.Row="1">
+            <TextBlock Text="New Task"
+                   FontSize="32"
+                   Margin="30,40,0,40"
+                   FontWeight="Light"/>
+            <TextBox PlaceholderText="Task Title"
+                     x:Name="TaskTitle"
+                     Style="{StaticResource FormBox}"
+                     />
+            <TextBox PlaceholderText="Description"
+                     x:Name="TaskDescription"
+                     Style="{StaticResource FormBox}"
+                     />
+            <TextBox PlaceholderText="Tags e.g programming,blogging"
+                     x:Name="Tags"
+                     Style="{StaticResource FormBox}"
+                     />
+            <DatePicker Name="datePicker"
+                                Margin="30,30,0,0"
+                                />
+            <StackPanel Orientation="Horizontal"
+                        Width="300"
+                        HorizontalAlignment="Left"
+                        Margin="30,45,0,0">
+                <Button Content="Create Task" 
+                        Name="createTask" 
+                        Margin="0,0,50,0"
+                        Click="CreateTask_Click"/>
+                <Button Content="Cancel" 
+                        Name="CancelTaskForm" 
+                        Click="CancelTaskForm_Click"/>
+            </StackPanel>
+        </StackPanel>
+        <ListView ItemsSource="{x:Bind project.tasks}"
+                  Name="tasks"
+                  Grid.Column="1"
+                   Margin="30,40,0,40"
+                  Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="data:Task">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Title}"/>
+                        <TextBlock Text="{x:Bind Description}"/>
+                        <TextBlock Text="{x:Bind date}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Start Timer"
+                                Name="startTimer"
+                                AccessKey="{x:Bind id}"
+                                Click="StartTimer_Click"/>
+                            <Button Content="Delete"
+                                Name="Delete"
+                                AccessKey="{x:Bind id}"
+                                Click="Delete_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>

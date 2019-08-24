@@ -1,0 +1,99 @@
+﻿<Page
+    x:Class="UltimatePomodoro.ProjectView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UltimatePomodoro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:data ="using:UltimatePomodoro.Models"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style TargetType="TextBox" x:Key="FormBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="30,30,0,0"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            
+        </Grid.RowDefinitions>
+        <CommandBar IsOpen="True" IsSticky="True">
+            <CommandBar.Content>
+                <TextBlock Text="" 
+                   Grid.Row="1"
+                   FontSize="24"
+                   FontWeight="Light"
+                   Margin="20,20,0,0"
+                   VerticalAlignment="Center"
+                   Name="ProjectName"/>
+            </CommandBar.Content>
+            <AppBarButton Icon="Add" IsCompact="False" Label="New Task" Click="NewTaskClick"/>
+        </CommandBar>
+        
+        <StackPanel x:Name="NewTaskForm"
+                    Visibility="Collapsed"
+                    Grid.Row="1">
+            <TextBlock Text="New Task"
+                   FontSize="32"
+                   Margin="30,40,0,40"
+                   FontWeight="Light"/>
+            <TextBox PlaceholderText="Task Title"
+                     x:Name="TaskTitle"
+                     Style="{StaticResource FormBox}"
+                     />
+            <TextBox PlaceholderText="Description"
+                     x:Name="TaskDescription"
+                     Style="{StaticResource FormBox}"
+                     />
+            <TextBox PlaceholderText="Tags e.g programming,blogging"
+                     x:Name="Tags"
+                     Style="{StaticResource FormBox}"
+                     />
+            <DatePicker Name="datePicker"
+                                Margin="30,30,0,0"
+                                />
+            <StackPanel Orientation="Horizontal"
+                        Width="300"
+                        HorizontalAlignment="Left"
+                        Margin="30,45,0,0">
+                <Button Content="Create Task" 
+                        Name="createTask" 
+                        Margin="0,0,50,0"
+                        Click="CreateTask_Click"/>
+                <Button Content="Cancel" 
+                        Name="Cancel" 
+                        Click="Cancel_Click"/>
+            </StackPanel>
+        </StackPanel>
+        <ListView ItemsSource="{x:Bind project.tasks}"
+                  Name="tasks"
+                   Margin="30,40,0,40"
+                  Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="data:Task">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Title}"/>
+                        <TextBlock Text="{x:Bind Description}"/>
+                        <TextBlock Text="{x:Bind date}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Start Timer"
+                                Name="startTimer"
+                                AccessKey="{x:Bind id}"
+                                Click="StartTimer_Click"/>
+                            <Button Content="Delete"
+                                Name="Delete"
+                                AccessKey="{x:Bind id}"
+                                Click="Delete_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+    </Grid>
+</Page>

@@ -25,8 +25,8 @@ namespace UltimatePomodoro
     /// </summary>
     public sealed partial class Schedule : Page
     {
-        public DaySchedule CurrentTasks;
-        public DateTime selected;
+        public Project project;
+        public ObservableCollection<Project> projects;
         public DateTime today;
         public string calendarPos = "";
 
@@ -34,49 +34,29 @@ namespace UltimatePomodoro
         {
             this.InitializeComponent();
             today = DateTime.Today;
+            projects = TaskManager.projects;
+            if (projects.Count() > 0)
+            {
+                project = TaskManager.projects.First();
+                ProjectName.Text = project.title;
+            }
         }
 
-        private void Scheduler_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
-        {
-            
-            try
-            {
-                selected = Scheduler.SelectedDates.First().DateTime;
-                NewTaskButton.Visibility = Visibility.Visible;
-                calendarPos = String.Format("{0}:{1}:{2}", selected.Day, selected.Month, selected.Year);
-                try
-                {
-                    CurrentTasks = TaskManager.DailyTasks[calendarPos];
-                    TaskCards.ItemsSource = CurrentTasks.tasks;
-                }
-                catch
-                {
-                    CurrentTasks = null;
-                    TaskCards.ItemsSource = null;
-                }
-                Date.Text = "Tasks for " + calendarPos;
-            }
-            catch
-            {
-                Date.Text = "Please select a day on the calendar";
-                NewTaskButton.Visibility = Visibility.Collapsed;
-            }
-            
-            
-        }
 
         private void CreateTask_Click(object sender, RoutedEventArgs e)
         {
-            if (selected >= today)
+            string date = String.Format("{0},{1},{2}", datePicker.Date.Day, datePicker.Date.Month, datePicker.Date.Year);
+            
+
+            if (datePicker.Date.Date >= today)
             {
-                string id = Guid.NewGuid().ToString();
-
-
-                Task task = new Task {
-                    Title = Title.Text,
-                    Description = Description.Text,
-                    id = id,
+                
+                Task task = new Task
+                {
+                    Title = TaskTitle.Text,
+                    Description = TaskDescription.Text,
                     tags = Tags.Text,
+                    date = date,
                     Validator = i =>
                     {
                         var t = i as Task;
@@ -94,38 +74,36 @@ namespace UltimatePomodoro
 
                 if (task.Validate())
                 {
-                    try
+                    if(project != null)
                     {
-                        CurrentTasks = TaskManager.DailyTasks[calendarPos];
-                    }
-                    catch
+                        project.tasks.Add(task);
+                    } else
                     {
-                        DaySchedule newSchedule = new DaySchedule { date = calendarPos };
-
-                        TaskManager.DailyTasks[calendarPos] = newSchedule;
-                        CurrentTasks = newSchedule;
-
+                        project = new Project { title = "Unsorted Tasks" };
+                        projects.Add(project);
+                        ProjectName.Text = project.title;
+                        project.tasks.Add(task);
+                        tasks.ItemsSource = project.tasks;
                     }
-
-                    CurrentTasks.AddTask(task);
-                    TaskCards.ItemsSource = CurrentTasks.tasks;
+                    
                     closeForm();
                 }
-                
-            } else
+
+            }
+            else
             {
-                
+
                 MessageDialog dialog = new MessageDialog("Creating tasks before today is not allowed");
                 dialog.Title = "Not allowed";
                 _ = dialog.ShowAsync();
             }
 
-            
+
         }
 
-        private void CreateTimer_Click(object sender, RoutedEventArgs e)
+        private void StartTimer_Click(object sender, RoutedEventArgs e)
         {
-            if (selected.Date == today)
+            if (datePicker.Date.Date == today)
             {
                 Button button_sender = (Button)sender;
                 if (TaskManager.currentTask == null)
@@ -157,56 +135,87 @@ namespace UltimatePomodoro
         private void CreateTimer(Button button_sender)
         {
             TimeManager timer = new TimeManager();
-            
-            Task task = CurrentTasks.tasks.Where(p => p.id == button_sender.AccessKey).First();
-            task.Pomodoro = timer;
+            Button task = (Button)button_sender;
+            Task current_task = project.tasks.Where(p => p.id == task.AccessKey.ToString()).First();
+            current_task.Pomodoro = timer;
+            TaskManager.currentTimer = current_task.Pomodoro;
+            TaskManager.currentTask = current_task;
 
-            TaskManager.currentTimer = timer;
-            TaskManager.currentTask = task;
-            
             Frame.Navigate(typeof(Timer));
-        }
-
-        private void DeleteTask_Click(object sender, RoutedEventArgs e)
-        {
-            Button button_sender = (Button)sender;
-            var selected = Scheduler.SelectedDates; 
-
-            foreach(Task task in CurrentTasks.tasks)
-            {
-                if (task.id == button_sender.AccessKey)
-                {
-                    CurrentTasks.tasks.Remove(task);
-                    TaskManager.currentTimer = null;
-                    break;
-                }
-            }
-
-        }
-
-        private void NewTaskButton_Click(object sender, RoutedEventArgs e)
-        {
-            NewTaskButton.Visibility = Visibility.Collapsed;
-            NewTaskForm.Visibility = Visibility.Visible;
-
-        }
-
-        private void CloseFormButton_Click(object sender, RoutedEventArgs e)
-        {
-            closeForm();
         }
 
         private void closeForm()
         {
             NewTaskForm.Visibility = Visibility.Collapsed;
-            Title.Text = "";
-            Description.Text = "";
-            NewTaskButton.Visibility = Visibility.Visible;
+            tasks.Visibility = Visibility.Visible;
         }
 
-        private void TaskCard_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void NewProject_Click(object sender, RoutedEventArgs e)
+        {
+            ProjectForm.Visibility = Visibility.Visible;
+        }
+
+        private void AddProject_Click(object sender, RoutedEventArgs e)
+        {
+            Project new_project = new Project { title = ProjectTitle.Text };
+            projects.Add(new_project);
+            if (project == null)
+            {
+                project = new_project;
+                tasks.ItemsSource = project.tasks;
+                ProjectName.Text = project.title;
+            }
+            
+            ProjectForm.Visibility = Visibility.Collapsed;
+
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            ProjectForm.Visibility = Visibility.Collapsed;
+            ProjectTitle.Text = "";
+        }
+
+        private void ProjectTapped(object sender, TappedRoutedEventArgs e)
+        {
+            ListViewItem project_item = (ListViewItem)sender;
+            project = TaskManager.projects.Where(p => p.id == project_item.AccessKey.ToString()).First();
+            ProjectName.Text = project.title;
+            tasks.ItemsSource = project.tasks;
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            TimeManager timer = new TimeManager();
+            Button task = (Button)sender;
+            Task current_task = project.tasks.Where(p => p.id == task.AccessKey.ToString()).First();
+            if (current_task.id == TaskManager.currentTask.id)
+            {
+                TaskManager.currentTimer = null;
+                TaskManager.currentTask = null;
+            }
+                
+            project.tasks.Remove(current_task);
+        }
+
+        private void NewTaskClick(object sender, RoutedEventArgs e)
+        {
+            NewTaskForm.Visibility = Visibility.Visible;
+            tasks.Visibility = Visibility.Collapsed;
+        }
+
+        private void DeleteProject(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void CancelTaskForm_Click(object sender, RoutedEventArgs e)
+        {
+            NewTaskForm.Visibility = Visibility.Collapsed;
+            tasks.Visibility = Visibility.Visible;
+            TaskTitle.Text = "";
+            TaskDescription.Text = "";
+            Tags.Text = "";
         }
     }
 

@@ -11,7 +11,6 @@ namespace UltimatePomodoro.Models
 {
     public static class TaskManager
     {
-        public static Dictionary<string,DaySchedule> DailyTasks = new Dictionary<string, DaySchedule>();
         public static TimeManager currentTimer;
         public static Task currentTask;
         public static Boolean timerActive = false;
@@ -21,13 +20,15 @@ namespace UltimatePomodoro.Models
     public class Project
     {
         public string title;
-        public ObservableCollection<DaySchedule> tasks = new ObservableCollection<DaySchedule>();
+        public string id = Guid.NewGuid().ToString("N");
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public ObservableCollection<Task> tasks = new ObservableCollection<Task>();
     }
 
     public class Task : Template10.Validation.ValidatableModelBase
     {
         public string Title { get { return Read<string>(); } set { Write<string>(value); } }
-        public string id { get; set; }
+        public string id = Guid.NewGuid().ToString("X");
         public string date;
         public string Description { get; set; }
         public TimeManager Pomodoro {get; set;}
